@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/domain"
+        android:background="@android:color/holo_purple"
+        android:layout_height="wrap_content"/>
+
+    <WebView
+        android:id="@+id/www"
+        android:layout_below="@+id/domain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/search" />
+
+    <RelativeLayout
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:labelFor="@+id/box"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <ImageButton
+            android:src="@android:drawable/stat_sys_download"
+            android:layout_width="wrap_content"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:id="@+id/download"
+            android:layout_height="wrap_content"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/box"
+            android:layout_toEndOf="@+id/download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:minWidth="488dp"
+            android:minHeight="48dp"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <ProgressBar
+        android:layout_below="@+id/domain"
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:padding="0dp"
+        android:background="@android:color/transparent"
+        android:progressDrawable="@drawable/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_height="3dp" />
+</RelativeLayout>
