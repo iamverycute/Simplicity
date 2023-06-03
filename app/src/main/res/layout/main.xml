@@ -7,17 +7,17 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
         android:id="@+id/domain"
-        android:background="@android:color/holo_purple"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_purple" />
 
     <WebView
         android:id="@+id/www"
-        android:layout_below="@+id/domain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/search" />
+        android:layout_above="@+id/search"
+        android:layout_below="@+id/domain" />
 
     <RelativeLayout
         android:id="@+id/search"
@@ -26,24 +26,29 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:labelFor="@+id/box"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
+        android:paddingStart="8dp"
+        android:paddingEnd="10dp">
 
         <ImageButton
-            android:src="@android:drawable/stat_sys_download"
-            android:layout_width="wrap_content"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
             android:id="@+id/download"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:ignore="ContentDescription" />
+            android:background="@null"
+            android:importantForAccessibility="no"
+            android:minWidth="22dp"
+            android:minHeight="48dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="2dp"
+            android:src="@android:drawable/stat_sys_download"
+            tools:ignore="ContentDescription,TouchTargetSizeCheck" />
 
         <EditText
             android:id="@+id/box"
-            android:layout_toEndOf="@+id/download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/download"
             android:imeOptions="actionDone"
+            android:importantForAccessibility="no"
             android:inputType="text"
             android:minWidth="488dp"
             android:minHeight="48dp"
@@ -51,12 +56,18 @@
     </RelativeLayout>
 
     <ProgressBar
-        android:layout_below="@+id/domain"
         android:id="@+id/progress"
-        android:layout_width="match_parent"
-        android:padding="0dp"
-        android:background="@android:color/transparent"
-        android:progressDrawable="@drawable/progress"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_height="3dp" />
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/domain"
+        android:background="@android:color/transparent"
+        android:padding="0dp"
+        android:progressDrawable="@drawable/progress" />
+
+    <FrameLayout
+        android:id="@+id/video_full"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 </RelativeLayout>

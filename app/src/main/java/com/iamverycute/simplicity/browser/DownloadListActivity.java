@@ -1,29 +1,63 @@
 package com.iamverycute.simplicity.browser;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DownloadListActivity extends Activity {
+    private ListViewAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.down);
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        List<File> downloadFiles = getDownloadFiles();
+        if (downloadFiles != null) {
+            adapter = new ListViewAdapter(this, R.layout.item, getDownloadFiles());
+            ((ListView) findViewById(R.id.fileList)).setAdapter(adapter);
+        } else {
+            finish();
+        }
+    }
+
+    public List<File> getDownloadFiles() {
+        File downloadDir = new SimpleUtils.SimpleDirectory().DownloadDir(this);
+        if (downloadDir != null) {
+            File[] files = downloadDir.listFiles(file -> file.isFile() && Launch.downloadHistories.stream().noneMatch(item -> item.getDownloadFile().getAbsolutePath().equals(file.getAbsolutePath())));
+            if (files != null)
+                return new LinkedList<>(Arrays.asList(files));
+        }
+        return null;
+    }
+
+    public void OnClick(View v) {
+        if (v.getId() == adapter.mode) {
             return;
         }
-        File downloadDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Download");
-        ListViewAdapter adapter = new ListViewAdapter(this, R.layout.item, Arrays.stream(downloadDir.listFiles()).filter(File::isFile).collect(Collectors.toList()));
-        ListView view = (ListView) findViewById(R.id.fileList);
-        view.setAdapter(adapter);
+        TextView tv;
+        if (v.getId() == R.id.downing) {
+            tv = findViewById(R.id.down_done);
+            List<File> downList = new ArrayList<>();
+            Launch.downloadHistories.forEach(item -> downList.add(item.getDownloadFile()));
+            adapter.updateFileList(downList);
+        } else {
+            tv = findViewById(R.id.downing);
+            adapter.updateFileList(getDownloadFiles());
+        }
+        tv.setBackgroundColor(0);
+        tv.setTextColor(Color.WHITE);
+        adapter.notifyDataSetChanged();
+        adapter.mode = v.getId();
+        ((TextView) v).setTextColor(Color.BLACK);
+        v.setBackground(getDrawable(R.color.progress));
     }
 }
